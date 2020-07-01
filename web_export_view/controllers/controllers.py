@@ -20,8 +20,12 @@ class ExcelExportView(ExcelExport):
     def export_xls_view(self, data, token):
         data = json.loads(data)
         model = data.get('model', [])
-        columns_headers = data.get('headers', [])
-        rows = data.get('rows', [])
+        if model in ['res.partner.product']:
+            columns_headers = []
+            rows = []
+        else:
+            columns_headers = data.get('headers', [])
+            rows = data.get('rows', [])
 
         return request.make_response(
             self.from_data(columns_headers, rows),
